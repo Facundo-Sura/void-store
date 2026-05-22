@@ -8,7 +8,7 @@ interface RelatedProductsProps {
 export async function RelatedProducts({ productId }: RelatedProductsProps) {
   try {
     const products = await productsApi.getRelated(productId);
-    const limited = products.slice(0, 4);
+    const limited = products.slice(0, 6);
 
     if (limited.length === 0) return null;
 
@@ -17,9 +17,9 @@ export async function RelatedProducts({ productId }: RelatedProductsProps) {
         <h2 className="font-display text-2xl font-bold tracking-tight text-text-primary mb-8">
           You May Also Like
         </h2>
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {limited.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} compact />
           ))}
         </div>
       </section>
