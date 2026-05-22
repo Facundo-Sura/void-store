@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import {
+  PlusIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import type { User } from "@/lib/types";
 import { usersApi } from "@/lib/api/users";
 import { UserTable } from "@/components/admin/UserTable";
@@ -15,6 +18,15 @@ export default function AdminUsersPage() {
   const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredUsers = useMemo(
+    () =>
+      users.filter((u) =>
+        u.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
+    [users, searchQuery],
+  );
 
   const fetchUsers = async () => {
     setIsLoading(true);
@@ -73,6 +85,20 @@ export default function AdminUsersPage() {
         </div>
       )}
 
+      {/* Search */}
+      {!isLoading && users.length > 0 && (
+        <div className="relative mb-4">
+          <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search users by name…"
+            className="w-full rounded-lg border border-border bg-surface-elevated py-2.5 pl-10 pr-4 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-cyan"
+          />
+        </div>
+      )}
+
       {isLoading ? (
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -83,7 +109,7 @@ export default function AdminUsersPage() {
           ))}
         </div>
       ) : (
-        <UserTable users={users} onDelete={(id) => setDeleteId(id)} />
+        <UserTable users={filteredUsers} onDelete={(id) => setDeleteId(id)} />
       )}
 
       <ConfirmDialog
