@@ -12,16 +12,18 @@ import { Button } from "@/components/ui/Button";
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchProducts = async () => {
     setIsLoading(true);
+    setError("");
     try {
       const data = await productsApi.getAll({ offset: 0, limit: 100 });
       setProducts(data);
     } catch {
-      // Error handled silently
+      setError("Failed to load products. API unavailable.");
     } finally {
       setIsLoading(false);
     }
@@ -58,6 +60,18 @@ export default function AdminProductsPage() {
           </Button>
         </Link>
       </div>
+
+      {error && (
+        <div className="mb-6 rounded-xl border border-coral/20 bg-coral/5 p-4 text-sm text-coral">
+          {error}
+          <button
+            onClick={fetchProducts}
+            className="ml-2 underline hover:no-underline"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {isLoading ? (
         <div className="space-y-3">

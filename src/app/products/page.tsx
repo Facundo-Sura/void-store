@@ -35,12 +35,21 @@ async function ProductList({
   categoryId?: number;
   title?: string;
 }) {
-  const products = await productsApi.getAll({
-    offset,
-    limit,
-    ...(categoryId && { categoryId }),
-    ...(title && { title }),
-  });
+  let products;
+  try {
+    products = await productsApi.getAll({
+      offset,
+      limit,
+      ...(categoryId && { categoryId }),
+      ...(title && { title }),
+    });
+  } catch {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <p className="text-text-muted text-sm">Could not load products. Please try again later.</p>
+      </div>
+    );
+  }
 
   return <ProductGrid products={products} />;
 }
@@ -56,7 +65,12 @@ function ProductListFallback() {
 }
 
 async function CategorySection() {
-  const categories = await categoriesApi.getAll({ limit: 20 });
+  let categories;
+  try {
+    categories = await categoriesApi.getAll({ limit: 20 });
+  } catch {
+    return null;
+  }
   return <CategoryFilter categories={categories} />;
 }
 
@@ -125,7 +139,11 @@ async function PaginationWrapper({
   offset: number;
   limit: number;
 }) {
-  // Fetch a larger batch to estimate total count, or use the returned array length
-  const products = await productsApi.getAll({ offset: 0, limit: 100 });
+  let products;
+  try {
+    products = await productsApi.getAll({ offset: 0, limit: 100 });
+  } catch {
+    return null;
+  }
   return <Pagination total={products.length} limit={limit} offset={offset} />;
 }

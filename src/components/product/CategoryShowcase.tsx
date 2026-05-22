@@ -3,7 +3,14 @@ import Link from "next/link";
 import { categoriesApi } from "@/lib/api/categories";
 
 export async function CategoryShowcase() {
-  const categories = await categoriesApi.getAll({ limit: 6 });
+  let categories;
+  try {
+    categories = await categoriesApi.getAll({ limit: 6 });
+  } catch {
+    return null;
+  }
+
+  if (categories.length === 0) return null;
 
   return (
     <section className="border-t border-border py-16 sm:py-24">

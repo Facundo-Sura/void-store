@@ -3,13 +3,21 @@ import { productsApi } from "@/lib/api/products";
 import { categoriesApi } from "@/lib/api/categories";
 
 async function AdminStats() {
-  const [products, categories] = await Promise.all([
-    productsApi.getAll({ offset: 0, limit: 1 }),
-    categoriesApi.getAll({ limit: 1 }),
-  ]);
+  let allProducts: { length: number } = { length: 0 };
+  let allCategories: { length: number } = { length: 0 };
+  let apiOnline = false;
 
-  const allProducts = await productsApi.getAll({ offset: 0, limit: 200 });
-  const allCategories = await categoriesApi.getAll({ limit: 100 });
+  try {
+    const [products, categories] = await Promise.all([
+      productsApi.getAll({ offset: 0, limit: 1 }),
+      categoriesApi.getAll({ limit: 1 }),
+    ]);
+    allProducts = await productsApi.getAll({ offset: 0, limit: 200 });
+    allCategories = await categoriesApi.getAll({ limit: 100 });
+    apiOnline = true;
+  } catch {
+    // API unavailable — show offline state
+  }
 
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -25,8 +33,8 @@ async function AdminStats() {
       />
       <StatCard
         label="API Status"
-        value="Online"
-        color="green"
+        value={apiOnline ? "Online" : "Offline"}
+        color={apiOnline ? "green" : "coral"}
       />
     </div>
   );

@@ -2,7 +2,14 @@ import { productsApi } from "@/lib/api/products";
 import { ProductGrid } from "./ProductGrid";
 
 export async function FeaturedProducts() {
-  const products = await productsApi.getAll({ offset: 0, limit: 8 });
+  let products;
+  try {
+    products = await productsApi.getAll({ offset: 0, limit: 8 });
+  } catch {
+    return null;
+  }
+
+  if (products.length === 0) return null;
 
   return (
     <section className="py-16 sm:py-24">

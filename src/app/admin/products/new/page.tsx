@@ -3,7 +3,16 @@ import { categoriesApi } from "@/lib/api/categories";
 import { ProductForm } from "@/components/admin/ProductForm";
 
 async function CategoryLoader() {
-  const categories = await categoriesApi.getAll({ limit: 100 });
+  let categories;
+  try {
+    categories = await categoriesApi.getAll({ limit: 100 });
+  } catch {
+    return (
+      <div className="rounded-xl border border-coral/20 bg-coral/5 p-6 text-center">
+        <p className="text-sm text-coral">Could not load categories. API unavailable.</p>
+      </div>
+    );
+  }
   return <ProductForm categories={categories} />;
 }
 

@@ -9,10 +9,20 @@ interface EditProductPageProps {
 }
 
 async function EditForm({ id }: { id: number }) {
-  const [product, categories] = await Promise.all([
-    productsApi.getById(id),
-    categoriesApi.getAll({ limit: 100 }),
-  ]);
+  let product;
+  let categories;
+  try {
+    [product, categories] = await Promise.all([
+      productsApi.getById(id),
+      categoriesApi.getAll({ limit: 100 }),
+    ]);
+  } catch {
+    return (
+      <div className="rounded-xl border border-coral/20 bg-coral/5 p-6 text-center">
+        <p className="text-sm text-coral">Could not load product data. API unavailable.</p>
+      </div>
+    );
+  }
 
   if (!product) notFound();
 
