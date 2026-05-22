@@ -82,3 +82,13 @@ export interface PaginatedResponse<T> {
   offset: number;
   limit: number;
 }
+
+// ─── Profile Types ───
+
+export interface ExtendedProfile {
+  province: string;
+  city: string;
+  zipCode: string;
+  description: string;
+  dni: string;
+}
