@@ -36,9 +36,6 @@ export function Hero() {
             <Button size="lg" href="/products">
               Shop Collection
             </Button>
-            <Button variant="outline" size="lg" href="/products?categoryId=4">
-              Explore Adidas
-            </Button>
           </div>
         </div>
 
