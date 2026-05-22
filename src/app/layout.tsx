@@ -39,6 +39,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} h-full`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-void font-sans text-text-primary antialiased">
         <AuthProvider>
