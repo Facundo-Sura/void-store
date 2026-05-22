@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   HomeIcon,
   CubeIcon,
+  UsersIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { href: "/admin", label: "Dashboard", icon: HomeIcon },
   { href: "/admin/products", label: "Products", icon: CubeIcon },
+  { href: "/admin/users", label: "Users", icon: UsersIcon },
 ];
 
 export function AdminSidebar() {
