@@ -2,38 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // La API de Platzi Fake Store acepta cualquier URL de imagen de usuarios,
+    // así que permitimos cualquier hostname como comodín.
+    // En producción con datos controlados, especificar dominios concretos.
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.imgur.com",
+        hostname: "**",
       },
       {
-        protocol: "https",
-        hostname: "**.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "via.placeholder.com",
-      },
-      {
-        protocol: "https",
-        hostname: "placeimg.com",
-      },
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
-      {
-        protocol: "https",
-        hostname: "i.pravatar.cc",
-      },
-      {
-        protocol: "https",
-        hostname: "api.lorem.space",
-      },
-      {
-        protocol: "https",
-        hostname: "placehold.co",
+        protocol: "http",
+        hostname: "**",
       },
     ],
   },
