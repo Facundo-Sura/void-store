@@ -1,5 +1,5 @@
 import { productsApi } from "@/lib/api/products";
-import { ProductGrid } from "./ProductGrid";
+import { ProductCard } from "./ProductCard";
 
 interface RelatedProductsProps {
   productId: number;
@@ -19,7 +19,7 @@ export async function RelatedProducts({ productId }: RelatedProductsProps) {
         </h2>
         <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {limited.map((product) => (
-            <ProductGrid key={product.id} products={[product]} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
