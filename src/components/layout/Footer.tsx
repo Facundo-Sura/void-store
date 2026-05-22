@@ -35,11 +35,7 @@ export function Footer() {
                   Fashion
                 </Link>
               </li>
-              <li>
-                <Link href="/products?categoryId=4" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
-                  Adidas
-                </Link>
-              </li>
+
             </ul>
           </div>
 
