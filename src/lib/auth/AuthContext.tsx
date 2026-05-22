@@ -76,8 +76,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (credentials: LoginCredentials) => {
       const response = await authApi.login(credentials);
       setStoredToken(response.access_token);
+
+      // Platzi API only returns access_token, so fetch profile after login
+      const profile = await authApi.getProfile();
+
       setState({
-        user: response.user,
+        user: profile,
         isLoading: false,
         isAuthenticated: true,
       });

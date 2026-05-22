@@ -3,7 +3,7 @@ import type { LoginCredentials, AuthResponse, User } from "@/lib/types";
 
 export const authApi = {
   login: (credentials: LoginCredentials) =>
-    api.post<AuthResponse & { user: User }>("/auth/login", credentials),
+    api.post<AuthResponse>("/auth/login", credentials),
 
   getProfile: () =>
     api.get<User>("/auth/profile"),
