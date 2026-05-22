@@ -18,7 +18,7 @@ export function CategoryNav() {
   if (categories.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-1.5 overflow-x-auto pb-px scrollbar-none">
+    <div className="flex items-center justify-center gap-1.5 overflow-x-auto pb-px scrollbar-none">
       <Link
         href="/products"
         className="flex-shrink-0 rounded-full bg-surface-elevated px-3 py-1 text-xs font-medium text-text-secondary hover:text-text-primary hover:bg-void-300 transition-colors"

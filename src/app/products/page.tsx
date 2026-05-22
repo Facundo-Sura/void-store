@@ -1,10 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { productsApi } from "@/lib/api/products";
-import { categoriesApi } from "@/lib/api/categories";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { SearchBar } from "@/components/product/SearchBar";
-import { CategoryFilter } from "@/components/product/CategoryFilter";
 import { Pagination } from "@/components/product/Pagination";
 import { SkeletonCard } from "@/components/product/SkeletonCard";
 
@@ -64,16 +61,6 @@ function ProductListFallback() {
   );
 }
 
-async function CategorySection() {
-  let categories;
-  try {
-    categories = await categoriesApi.getAll({ limit: 20 });
-  } catch {
-    return null;
-  }
-  return <CategoryFilter categories={categories} />;
-}
-
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const offset = Number(params.offset) || 0;
@@ -91,27 +78,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         <p className="mt-2 text-text-secondary">
           Discover your next favorite piece
         </p>
-      </div>
-
-      {/* Filters */}
-      <div className="mb-8 space-y-4">
-        <div className="max-w-sm">
-          <SearchBar />
-        </div>
-        <Suspense
-          fallback={
-            <div className="flex gap-2">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-8 w-20 animate-pulse rounded-full bg-void-200"
-                />
-              ))}
-            </div>
-          }
-        >
-          <CategorySection />
-        </Suspense>
       </div>
 
       {/* Products */}
