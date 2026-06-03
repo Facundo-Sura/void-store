@@ -1,14 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { ShoppingBagIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import { useCartStore } from "@/store/cart";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { HeaderSearch } from "./HeaderSearch";
 import { CategoryNav } from "./CategoryNav";
+import { MobileNav } from "./MobileNav";
 
 export function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const totalItems = useCartStore((state) => state.totalItems);
   const { isAuthenticated, user } = useAuth();
 
@@ -24,23 +27,21 @@ export function Header() {
           VOID
         </Link>
 
-        {/* Search — hidden on very small screens */}
-        <div className="hidden sm:flex flex-1 justify-center">
+        {/* Search — flex on all screens */}
+        <div className="flex flex-1 justify-center min-w-0">
           <HeaderSearch />
         </div>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          {/* Mobile search icon */}
-          <Link
-            href="/products"
+          {/* Mobile menu toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(true)}
             className="sm:hidden p-2 text-text-secondary hover:text-text-primary transition-colors"
-            aria-label="Search"
+            aria-label="Open menu"
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-          </Link>
+            <Bars3Icon className="h-6 w-6" />
+          </button>
 
           {isAuthenticated && user ? (
             <Link
@@ -90,18 +91,15 @@ export function Header() {
         </div>
       </div>
 
-      {/* Bottom row: Search on mobile + Category pills */}
-      <div className="border-t border-border/50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2 space-y-2">
-          {/* Search on mobile */}
-          <div className="sm:hidden">
-            <HeaderSearch />
-          </div>
-
-          {/* Categories */}
+      {/* Bottom row: Category pills — hidden on mobile, visible on desktop */}
+      <div className="hidden sm:block border-t border-border/50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2">
           <CategoryNav />
         </div>
       </div>
+
+      {/* Mobile navigation drawer */}
+      <MobileNav isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
     </header>
   );
 }
